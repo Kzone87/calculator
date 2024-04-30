@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>간단한 퀴즈 게임</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  #quiz-container {
+    margin: 50px auto;
+    max-width: 600px;
+  }
+  #question {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  #choices {
+    list-style-type: none;
+    padding: 0;
+  }
+  .choice {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .choice:hover {
+    background-color: #e0e0e0;
+  }
+</style>
+</head>
+<body>
+<div id="quiz-container">
+  <div id="question">퀴즈 질문이 여기에 표시됩니다.</div>
+  <ul id="choices"></ul>
+  <button id="submit">퀴즈 시작</button>
+</div>
+
+<script>
+const quizData = [
+  {
+    question: "세계에서 가장 큰 바다는?",
+    choices: ["태평양", "대서양", "인도양", "북극해"],
+    correctAnswer: 0
+  },
+  {
+    question: "우리의 의지와 힘으로 자신이 원하는 것을 이룰 수 있는 것을 무엇이라고 하나요?",
+    choices: ["사회주의", "자본주의", "자유주의", "포스트모더니즘"],
+    correctAnswer: 2
+  },
+  {
+    question: "태양계에서 행성은 총 몇 개인가요?",
+    choices: ["7개", "8개", "9개", "10개"],
+    correctAnswer: 1
+  }
+];
+
+const quizContainer = document.getElementById('quiz-container');
+const questionElement = document.getElementById('question');
+const choicesElement = document.getElementById('choices');
+const submitButton = document.getElementById('submit');
+
+let currentQuestion = 0;
+let score = 0;
+
+function displayQuestion() {
+  const currentQuiz = quizData[currentQuestion];
+  questionElement.textContent = currentQuiz.question;
+  choicesElement.innerHTML = "";
+  currentQuiz.choices.forEach((choice, index) => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+    li.classList.add('choice');
+    li.addEventListener('click', () => checkAnswer(index));
+    choicesElement.appendChild(li);
+  });
+}
+
+function checkAnswer(choiceIndex) {
+  if (choiceIndex === quizData[currentQuestion].correctAnswer) {
+    score++;
+  }
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    displayQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  quizContainer.innerHTML = `<h2>퀴즈 완료!</h2>
+                            <p>당신의 점수: ${score} / ${quizData.length}</p>`;
+}
+
+// 퀴즈 시작
+submitButton.addEventListener('click', () => displayQuestion());
+
+</script>
+</body>
+</html>

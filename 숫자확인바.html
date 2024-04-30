@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+
+        #checkBox {
+            padding: 20px;
+            background-color: antiquewhite;
+            width: 50%;
+            border-radius: 50px;
+        }
+
+        #inputX {
+            margin: 0 auto;
+        }
+      
+    </style>
+  </head>
+  <body>
+    <div id="checkBox">
+      <input type="number" id="inputX" />
+      <button id="checkX">checkX</button>
+      <button id="add10">add10</button>
+      <p id="result"></p>
+
+      <input type="number" id="inputY" />
+      <button id="checkY">checkY</button>
+      <button id="add20">add20</button>
+      <p id="resultY"></p>
+    </div>
+
+    <script>
+
+      document.getElementById("checkX").onclick = checkX;
+      document.getElementById("add10").onclick = add10;
+
+      function checkX() {
+          let x = parseInt(document.getElementById("inputX").value);
+          if (x > 10) {
+              document.getElementById("result").textContent = x + "is greater than 10"
+          }
+          else {
+              document.getElementById("result").textContent = x + "is lesser than 10"
+          }
+      }
+
+      function add10() {
+           let x = parseInt(document.getElementById("inputX").value);
+          document.getElementById("result").textContent = x + 10;
+      }
+
+      function checkY() {
+        let Y = parseint(document.getElementById("inputY").value);
+          if (y > 10) {
+            document.getElementById("resultY").textcontent = Y + "is greater than 10"
+          }
+
+      }
+    </script>
+  </body>
+</html>

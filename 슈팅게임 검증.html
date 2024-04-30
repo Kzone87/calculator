@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>슈팅몬스터</title>
+
+    <style>
+        #shooter {
+            width: 150px;
+            height: 30px;
+            background-color: #333;
+            border: 1px solid #333;
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="shooter"></div>
+
+
+    <script>
+        const shooterEl = document.getElementById('shooter');
+        shooterEl.style.position = 'absolute';
+        shooterEl.style.left = '250px';
+        shooterEl.style.top = '200px';
+
+        const moveShooter = function (event) {
+            if (event.key === 'ArrowLeft') {
+                parseInt(shooterEl.style.left) += 50 + 'px';
+            }
+
+            else if (event.key === 'ArrowRight') {
+
+            }
+
+            else if (event.key === ' ') {
+
+            }
+        };
+
+
+        window.addEventListener('keydown', moveShooter);
+
+    </script>
+
+</body>
+
+</html>
