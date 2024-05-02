@@ -24,18 +24,21 @@
 
 
     <script>
-        const shooterEl = document.getElementById('shooter');
+        let shooterEl = document.getElementById('shooter');
         shooterEl.style.position = 'absolute';
         shooterEl.style.left = '250px';
         shooterEl.style.top = '200px';
 
         const moveShooter = function (event) {
+            //우선 슈터요소의 현제 레프트값을 확인한다.
+            let Left = parseInt(shooterEl.style.left);
+
             if (event.key === 'ArrowLeft') {
-                parseInt(shooterEl.style.left) += 50 + 'px';
+                shooterEl.style.left = (Left - 10) + "px";
             }
-
+            
             else if (event.key === 'ArrowRight') {
-
+                shooterEl.style.left = (Left + 10) + "px";
             }
 
             else if (event.key === ' ') {
