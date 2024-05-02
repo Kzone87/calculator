@@ -1,28 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>특정도값 맞추기</title>
 
     <style>
-        #wrap>textarea {
-            display: inline;
+        textarea {
+            display: block;
         }
     </style>
 
 </head>
 
 <body>
-    
+
     <div id="wrap">
         <h1>특정도 값을 맞춰보아요~</h1>
         <p>
-            CSS선택자 : > , ~ , + , ' '(공백) , : (가상선택자) 등을 사용하여 다양한 선택자를 작성하고 그 특정도 값을 맞춰보세요!
+            CSS선택자 : > , ~ , + , ' '(공백:자손선택자) , : (가상선택자), .classname, #id 등을 사용하여 다양한 선택자를 작성하고 그 특정도 값을 맞춰보세요!
         </p>
-        <textarea name="inputcss" id="" cols="50" rows="3"></textarea>
-        <input type="number">
+        <textarea name="inputcss" id="cssIn" cols="50" rows="3">body>h1</textarea>
+        <input id="answer" type="number">
         <button id="submit">결과확인!</button>
     </div>
-    
+
+
+    <script>
+
+        let textareaEl = document.getElementById('cssIn').value;
+        let answerEL = document.getElementById('answer').textContent;
+        const submitEl = document.getElementById('submit');
+        
+        let answerArr = [];
+        let score = 1;
+        
+        const checkAnswer = () => {
+            textareaEl = document.getElementById('cssIn').value
+            answerEL = document.getElementById('answer').value;
+            answerArr = textareaEl.split("");
+            console.log(answerArr);
+            
+            //텍스트에어리어에 있는 선택자 값을 계산하는 함수
+            for (i = 0; i < answerArr.length; i++) {
+                if (answerArr[i] === '>'||answerArr[i] === '~'||answerArr[i] === '+'||answerArr[i] === ' ') {
+                    score++;
+                }
+                else if (answerArr[i] === '.') {
+                    score += 10;
+                }
+                else if (answerArr[i] === ':') {
+                    score += 9;
+                }
+                else if (answerArr[i] === '#') {
+                    score += 100;
+                }
+            }
+            console.log(score);
+            console.log(answerEL);
+
+            //
+            let p = document.createElement('p');
+            if (score === parseInt(answerEL)) {
+                p.textContent = "you are correct!";
+                document.querySelector('body').appendChild(p);
+            }
+            else {
+                p.textContent = "you are wrong";
+                document.querySelector('body').appendChild(p);
+            }
+
+            score = 1;
+        }
+
+
+
+
+        submitEl.addEventListener('click', checkAnswer);
+
+
+
+
+
+    </script>
+
+
 </body>
+
 </html>
