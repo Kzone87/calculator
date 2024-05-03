@@ -11,7 +11,7 @@
             display: block;
             width: 800px;
             height: 800px;
-            margin: 30px auto;
+            margin: 30px 50px;
             border: 1px solid #000;
         }
 
@@ -39,12 +39,20 @@
             border: 1px solid #000;
             border-radius: 10px;
         }
+
+        div {
+            display: block;
+            width: 0;
+            height: 0;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent blue transparent;
+        }
     </style>
 
 </head>
 
 <body>
-
     <div id="container">
         <div id="stagearea">
             <div id="target"></div>
@@ -59,22 +67,44 @@
         shooterEl.style.top = '790px';
         shooterEl.style.left = '380px';
 
+        //슈터를 좌우화살표로 움직이는 함수
         const moveShooter = function (event) {
+            let left = parseInt(shooterEl.style.left);
             if (event.key === 'ArrowLeft') {
-
+                shooterEl.style.left = (left - 10) + "px";
             }
 
             if (event.key === 'ArrowRight') {
-
+                shooterEl.style.left = (left + 10) + "px";
             }
 
-            if (event.key === ' ') {
+            if (left < 70) {
+                shooterEl.style.left = 70 + "px";
+            }
 
+            if (left > 705) {
+                shooterEl.style.left = 705 + "px";
+            }
+        };
+
+        const creatShoot = (event) => {
+            let left = parseInt(shooterEl.style.left);
+            let top = parseInt(shooterEl.style.top);
+            if (event.key === ' ') {
+                let shoot = document.createElement('div');
+                document.querySelector('body').appendChild(shoot);
+                shoot.style.position = 'absolute';
+                shoot.style.top = '750px';
+                shoot.style.left = (left + 75) + 'px';
+
+                for (i = 0; i < 800; i++) {
+                }
             }
         };
 
 
         window.addEventListener('keydown', moveShooter);
+        window.addEventListener('keydown', creatShoot);
 
     </script>
 
