@@ -40,7 +40,7 @@
             border-radius: 10px;
         }
 
-        div {
+        .missile {
             display: block;
             width: 0;
             height: 0;
@@ -90,15 +90,25 @@
         const creatShoot = (event) => {
             let left = parseInt(shooterEl.style.left);
             let top = parseInt(shooterEl.style.top);
+
             if (event.key === ' ') {
                 let shoot = document.createElement('div');
+                let shootTop = parseInt(shoot.style.top);
+                shoot.setAttribute("class", "missile")
                 document.querySelector('body').appendChild(shoot);
                 shoot.style.position = 'absolute';
-                shoot.style.top = '750px';
-                shoot.style.left = (left + 75) + 'px';
+                shoot.style.left = (left + 65) + 'px';
 
-                for (i = 0; i < 800; i++) {
-                }
+                const move = () => {
+                    let time = Math.round((new Date()).getTime() / 10) % 200;
+                    shoot.style.top = 770 - time*3.7 + 'px';
+
+                    animation = requestAnimationFrame(move);
+                };
+
+
+                setTimeout(move(), 1000);
+
             }
         };
 
