@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+
+    <style>
+        #wrap {
+            display: block;
+            width: 100px;
+            height: 100px;
+            margin: 20px;
+            background-color: skyblue;
+        }
+
+        #wrap2 {
+            display: block;
+            width: 100px;
+            height: 100px;
+            margin: 20px;
+            background-color: skyblue;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    <div id="wrap"></div>
+    <div id="wrap2"></div>
+
+
+    <script>
+
+        const zero = document.timeline.currentTime;
+        requestAnimationFrame(animate);
+        function animate(timeStamp) {
+            const value = (timeStamp - zero); // animation-timing-function: linear
+            if (value < 1) {
+                element.style.opacity = value;
+                requestAnimationFrame((t) => animate(t));
+            } else element.style.opacity = 1;
+            console.log(value);
+        }
+
+        //document.timeline은 오브젝트로 currentTime 과 duration키값을 가진다.
+        //document.timeline.currentTime은 페이지가 오픈되었을때부터 경과된 시간을 계속해서 표시한다.
+        setTimeout(() => {
+            console.log(document.timeline);
+            console.log(document.timeline.currentTime);
+        }, 2000);
+
+        console.log(document.timeline);
+        console.log(document.timeline.currentTime);
+
+
+        //performance.now()는 현재의 document.timeline.currentTime를 불러오는 함수
+        performance.now();
+
+        setTimeout(() => {
+            console.log(performance.now());
+        }, 2000);
+
+
+
+        const element = document.getElementById("wrap");
+        const $wrap2 = document.getElementById("wrap2");
+        let start, previousTimeStamp;
+        let done = false;
+
+        function step(timeStamp) {
+            if (start === undefined) {
+                start = timeStamp;
+            }
+            const elapsed = timeStamp - start;
+
+            if (previousTimeStamp !== timeStamp) {
+                // Math.min() is used here to make sure the element stops at exactly 200px
+                const count = Math.min(0.1 * elapsed, 200);
+                element.style.transform = `translateY(${count}px)`;
+                if (count === 200) done = true;
+            }
+
+            if (elapsed < 2000) {
+                // Stop the animation after 2 seconds
+                previousTimeStamp = timeStamp;
+                if (!done) {
+                    window.requestAnimationFrame(step);
+                }
+            }
+        }
+
+        window.requestAnimationFrame(step);
+
+        $wrap2.style.position = 'absolute';
+        $wrap2.style.left = '0px';
+
+        const pull = (time) => {
+            let stamp = Math.min(time, 2000);
+            let left = $wrap2.style.left;
+
+            $wrap2.style.left = stamp*0.1 + 'px';
+
+
+
+
+
+            window.requestAnimationFrame(pull);
+
+            // console.log(document.timeline.currentTime);
+            // console.log(time);
+            // console.log(stamp);
+
+        };
+
+        pull();
+
+
+
+    </script>
+
+</body>
+
+</html>

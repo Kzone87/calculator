@@ -90,7 +90,7 @@
         const creatShoot = (event) => {
             let left = parseInt(shooterEl.style.left);
             let top = parseInt(shooterEl.style.top);
-
+            
             if (event.key === ' ') {
                 let shoot = document.createElement('div');
                 let shootTop = parseInt(shoot.style.top);
@@ -98,16 +98,17 @@
                 document.querySelector('body').appendChild(shoot);
                 shoot.style.position = 'absolute';
                 shoot.style.left = (left + 65) + 'px';
-
-                const move = () => {
-                    let time = Math.round((new Date()).getTime() / 10) % 200;
-                    shoot.style.top = 770 - time*3.7 + 'px';
+                
+                const move = (time) => {
+                    let stamp = Math.min(time,2000);
+                    let currentTime = time;
+                    let passedtime = time = currentTime;
+                    shoot.style.top = 770 - passedtime*0.1 + 'px';
 
                     animation = requestAnimationFrame(move);
                 };
 
-
-                setTimeout(move(), 1000);
+                move();
 
             }
         };
