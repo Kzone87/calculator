@@ -3,40 +3,41 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>슈팅몬스터</title>
 
     <style>
-        #container {
+        .container {
             display: block;
-            width: 800px;
+            position: relative;
+            width: 770px;
             height: 800px;
-            margin: 30px 50px;
+            margin: 50px auto;
             border: 1px solid #000;
         }
 
-        #container>#shooter {
-            display: inline;
-            width: 150px;
-            height: 30px;
-            margin: 0;
-            background-color: #333;
-            border: 1px solid #333;
+        .container>.stagearea {
+            display: flex;
+            flex-flow: row wrap;
+            width: 730px;
+            height: 400px;
+            padding: 20px;
+            /* border: 1px solid #000; */
+        }
+
+        .container>.stagearea>.target {
+            width: 70px;
+            height: 15px;
+            background-color: #5de;
+            border: 1px solid #000;
             border-radius: 10px;
         }
 
-        #stagearea {
-            width: 800px;
-            height: 400px;
-            border: 1px solid #000;
-        }
-
-        #stagearea>#target {
-            width: 70px;
-            height: 15px;
-            margin: 0 auto;
-            background-color: #5de;
-            border: 1px solid #000;
+        .container>.shooter {
+            display: block;
+            width: 150px;
+            height: 30px;
+            background-color: #333;
+            border: 1px solid #333;
             border-radius: 10px;
         }
 
@@ -53,52 +54,68 @@
 </head>
 
 <body>
-    <div id="container">
-        <div id="stagearea">
-            <div id="target"></div>
+    <div class="container">
+
+        <div class="stagearea">
+            <div class="target"></div>
         </div>
-        <div id="shooter"></div>
+
+        <div class="shooter"></div>
     </div>
 
 
     <script>
-        const shooterEl = document.getElementById('shooter');
-        shooterEl.style.position = 'absolute';
-        shooterEl.style.top = '790px';
-        shooterEl.style.left = '380px';
+
+        const $container = document.querySelector('.container');
+        const $shooter = document.querySelector('.shooter');
+        const $targets = document.querySelectorAll('.target');
+        const $target = document.querySelector('.target');
+
+        $shooter.style.position = 'absolute';
+        $shooter.style.left = '300px';
+        $shooter.style.top = '760px';
+
+        for (let i = 0; i < 10; i++) {
+            const ranLeft = Math.floor(Math.random() * 10 + 1);
+            const rantop = Math.floor(Math.random() * 4 + 1);
+
+            const ranTarget = document.createElement('div');
+            ranTarget.setAttribute("class", "target");
+            $container.appendChild(ranTarget);
+            ranTarget.style.position = 'absolute';
+        }
 
         //슈터를 좌우화살표로 움직이는 함수
         const moveShooter = function (event) {
-            let left = parseInt(shooterEl.style.left);
+
+            let left = parseInt($shooter.style.left);
             if (event.key === 'ArrowLeft') {
-                shooterEl.style.left = (left - 10) + "px";
+                $shooter.style.left = (left - 10) + "px";
             }
 
             if (event.key === 'ArrowRight') {
-                shooterEl.style.left = (left + 10) + "px";
+                $shooter.style.left = (left + 10) + "px";
             }
-
-            if (left < 70) {
-                shooterEl.style.left = 70 + "px";
+            if (left < 10) {
+                $shooter.style.left = 10 + "px";
             }
-
-            if (left > 705) {
-                shooterEl.style.left = 705 + "px";
+            if (left > 610) {
+                $shooter.style.left = 610 + "px";
             }
         };
 
-        const creatShoot = (event) => {
-            let left = parseInt(shooterEl.style.left);
-            let top = parseInt(shooterEl.style.top);
+        // 미사일(슛)을 생성하는 함수
+        const creatMissile = (event) => {
+            const shooterLeft = parseInt($shooter.style.left);
+            let top = parseInt($shooter.style.top);
             let start;
 
             if (event.key === ' ') {
-                let shoot = document.createElement('div');
-                let shootTop = parseInt(shoot.style.top);
-                shoot.setAttribute("class", "missile")
-                document.querySelector('body').appendChild(shoot);
-                shoot.style.position = 'absolute';
-                shoot.style.left = (left + 65) + 'px';
+                const missile = document.createElement('div');
+                missile.setAttribute("class", "missile");
+                $container.appendChild(missile);
+                missile.style.position = 'absolute';
+                missile.style.left = (shooterLeft + 65) + 'px';
 
                 const move = (time) => {
                     // requestAnimationFrame은 같은 명령이 지속되는듯하다
@@ -114,21 +131,21 @@
                         start = time;
                     }
 
-                    let stamp = Math.min(time - start, 3000);
+                    let stamp = Math.min(time - start, 1500);
 
-                    shoot.style.top = 770 - stamp * 0.2 + 'px';
+                    missile.style.top = 750 - stamp * 0.5 + 'px';
 
                     requestAnimationFrame(move);
                 };
-
                 move();
 
+                console.log(parseInt($targets[0].style.top));
             }
         };
 
 
         window.addEventListener('keydown', moveShooter);
-        window.addEventListener('keydown', creatShoot);
+        window.addEventListener('keydown', creatMissile);
 
     </script>
 
