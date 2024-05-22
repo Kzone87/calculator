@@ -90,7 +90,8 @@
         const creatShoot = (event) => {
             let left = parseInt(shooterEl.style.left);
             let top = parseInt(shooterEl.style.top);
-            
+            let start;
+
             if (event.key === ' ') {
                 let shoot = document.createElement('div');
                 let shootTop = parseInt(shoot.style.top);
@@ -98,14 +99,26 @@
                 document.querySelector('body').appendChild(shoot);
                 shoot.style.position = 'absolute';
                 shoot.style.left = (left + 65) + 'px';
-                
-                const move = (time) => {
-                    let stamp = Math.min(time,2000);
-                    let currentTime = time;
-                    let passedtime = time = currentTime;
-                    shoot.style.top = 770 - passedtime*0.1 + 'px';
 
-                    animation = requestAnimationFrame(move);
+                const move = (time) => {
+                    // requestAnimationFrame은 같은 명령이 지속되는듯하다
+                    // 따라서 단순히 start = time;로 시작시간을 저장하면
+                    // time - start는 무한히 0으로 나타나게되는 현상발생
+                    // 외부에서 start를 비어있는 변수로 선언하면
+                    // start변수에 언디파인드가 할당
+                    // if제어문을 통해 이벤트가 발생한 최초 시점의 time을
+                    // start가 언디파인드인 조건에만 저장함으로써
+                    // 시작시점의 strat와 계속해서 커지는 time을 구분할수 있음!
+                    // 결과는 매 이벤트 발생하는 각각의 요소의 stamp를 구별하여 저장할수 있게된다~
+                    if (start === undefined) {
+                        start = time;
+                    }
+
+                    let stamp = Math.min(time - start, 3000);
+
+                    shoot.style.top = 770 - stamp * 0.2 + 'px';
+
+                    requestAnimationFrame(move);
                 };
 
                 move();
