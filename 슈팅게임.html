@@ -15,16 +15,21 @@
             border: 1px solid #000;
         }
 
+        .container>p {
+            position: absolute;
+            left: 0;
+            top: -15px;
+        }
+
         .container>.stagearea {
-            display: flex;
-            flex-flow: row wrap;
             width: 730px;
-            height: 400px;
+            height: 0;
             padding: 20px;
             /* border: 1px solid #000; */
         }
 
-        .container>.stagearea>.target {
+        .container>.stagearea>.targets {
+            display: inline-block;
             width: 70px;
             height: 15px;
             background-color: #5de;
@@ -55,11 +60,18 @@
 
 <body>
     <div class="container">
-
+        <p>score</p>
         <div class="stagearea">
-            <div class="target"></div>
+            <div class="targets"></div>
+            <div class="targets"></div>
+            <div class="targets"></div>
+            <div class="targets"></div>
+            <div class="targets"></div>
+            <div class="targets"></div>
+            <div class="targets"></div>
+            <div class="targets"></div>
+            <div class="targets"></div>
         </div>
-
         <div class="shooter"></div>
     </div>
 
@@ -68,22 +80,13 @@
 
         const $container = document.querySelector('.container');
         const $shooter = document.querySelector('.shooter');
-        const $targets = document.querySelectorAll('.target');
-        const $target = document.querySelector('.target');
+        const $targets = document.querySelectorAll('.targets');
+        const $target = document.querySelector('.targets');
+        let score = 0;
 
         $shooter.style.position = 'absolute';
         $shooter.style.left = '300px';
         $shooter.style.top = '760px';
-
-        for (let i = 0; i < 10; i++) {
-            const ranLeft = Math.floor(Math.random() * 10 + 1);
-            const rantop = Math.floor(Math.random() * 4 + 1);
-
-            const ranTarget = document.createElement('div');
-            ranTarget.setAttribute("class", "target");
-            $container.appendChild(ranTarget);
-            ranTarget.style.position = 'absolute';
-        }
 
         //슈터를 좌우화살표로 움직이는 함수
         const moveShooter = function (event) {
@@ -138,8 +141,6 @@
                     requestAnimationFrame(move);
                 };
                 move();
-
-                console.log(parseInt($targets[0].style.top));
             }
         };
 
